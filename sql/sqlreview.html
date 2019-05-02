@@ -1,0 +1,75 @@
+<section>
+    <h3>Relational Databases</h3>
+    <ul>
+        <li>In relational databases, data is organized into tables.</li>
+        <li>Each table is like a spreadsheet, where there are columns and rows.</li>
+        <li>One column is the primary key, often an id which is an autoincremented number.</li>
+        <li>The language used to communicate with the database is SQL.</li>
+    </ul>
+</section>
+<section>
+    <h3>CRUD Operations</h3>
+   <p style="text-align: left; font-size: 20px;"> SQL is used to do CRUD operations (Create, Read, Update, Delete).  You can try each of the SQL 
+   statements below at https://www.w3schools.com/sql/trysql.asp?filename=trysql_insert_colname . You
+   can review SQL here: https://www.w3schools.com/sql/default.asp</p>
+<pre>
+CREATE TABLE "posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,"user_id" integer,
+"text" varchar,"created_at" datetime,"updated_at" datetime);
+
+INSERT INTO posts (user_id, text) VALUES (7, "this is a post");
+INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country) 
+VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
+
+SELECT CustomerID,CustomerName,ContactName FROM Customers WHERE City='Berlin' AND Country='Germany';
+SELECT * FROM Customers WHERE Country LIKE 'Nor%';
+
+UPDATE Customers SET Address="1100 Main St", PostalCode='V3G 2K1' WHERE CustomerID=42;
+
+DELETE FROM Customers WHERE CustomerID=87;
+</pre>
+</section>
+<section>
+    <h3>Joins</h3>
+<p style="text-align: left; font-size: 20px;"> One kind of read operation is a join.  Joins combine tables according to a rule.  
+In the following case, the rule is that the CustomerID for the two tables must match.  
+CustomerID is a foreign key in the Orders table.</p>
+<pre>
+SELECT * FROM Orders JOIN Customers ON (Orders.CustomerID = Customers.CustomerID) WHERE Country='Brazil';
+</pre>
+</section>
+<section>
+<h3>Running SQL from the C9.IO Command Line</h3>
+
+<p style="text-align: left; font-size: 20px;">Go to the C9.IO workspace where you have chinook.db installed.  If you do not have chinook.db installed in C9, do the following:</p>
+<pre>
+mkdir sqlite3
+cd sqlite3
+wget http://www.sqlitetutorial.net/wp-content/uploads/2018/03/chinook.zip
+unzip chinook.zip
+</pre>
+<p style="text-align: left; font-size: 20px;"> You can now open the database using the sqlite3 command line tool:</p>
+<pre>
+sqlite3 chinook.db
+</pre>
+<p style="text-align: left; font-size: 20px;"> Then you can run sql statements.  These must end in a ; .  Press ; if you get stuck. .quit ends the session. Try</p>
+<pre>
+SELECT * FROM customers;
+</pre>
+</section>
+<section>
+<h3>Running SQL from Ruby IRB</h3>
+
+<p style="text-align: left; font-size: 20px;"> Make sure the sqlite3 gem is installed:</p>
+<pre>
+gem install sqlite3
+</pre>
+<p style="text-align: left; font-size: 20px;"> Then start irb.  Type</p>
+<pre>
+require 'sqlite3'
+db = SQLite3::Database.new('./chinook.db')
+array=db.execute("SELECT * FROM customers") 
+puts array[0].to_s
+</pre>
+<p style="text-align: left; font-size: 20px;">The SQL must be wrapped in a db.execute statement.  You can't put SQL into Ruby without this wrapping.  
+The SELECT statement returns an array of arrays, where each inner array corresponds to a row in the table.</p> 
+</section>
